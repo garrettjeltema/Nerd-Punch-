@@ -33,6 +33,8 @@ let nerdAngle = 0
 
 let punchable = false
 
+let escaped = false
+
 let f1 = true
 let f2 = false
 

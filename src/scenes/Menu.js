@@ -157,6 +157,7 @@ class Menu extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(cursors.space)) {
             this.sound.play('startgame')
             this.loop.stop()
+            escaped = false
             this.scene.start('playScene')
         }
     }

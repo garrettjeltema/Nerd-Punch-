@@ -36,7 +36,9 @@ class Play extends Phaser.Scene {
         this.highText = this.add.bitmapText(game.config.width / 2, game.config.height / 2 - 60, 'retro-font', 'Reach 10,000 Points!', 36).setOrigin(0.5, 0)
 
         // add escape button
-        this.escape = this.add.image(20, 20, 'escape')
+        this.escape = this.physics.add.sprite(20, 20, 'escape')
+        this.escape.body.setAllowGravity(false)
+        this.escape.body.setImmovable(true)
 
         // add selections
         this.f1Selection = this.physics.add.sprite(game.config.width - 50, 50, 'fist1-select', 0)
@@ -230,6 +232,9 @@ class Play extends Phaser.Scene {
         // when escape clicked current score is kept
         this.escape.on('pointerdown', () => {
             currentScore = this.SCORE
+            escaped = true
+            this.justdown = false
+            this.justdown.destroy()
         })
 
         // play nerd idle animation
@@ -252,10 +257,12 @@ class Play extends Phaser.Scene {
                 this.nerd.body.setSize(70, 22)
                 this.nerd.anims.play('hurt', true)
                 this.sound.play('point')
-            } else if(this.justdown) {
-                this.MISSES += 1
-                this.justdown = false
-                this.sound.play('hurt')
+            } else if(this.justdown && !escaped) {
+                    this.MISSES += 1
+                    this.sound.play('hurt')
+                    console.log(this.justdown)
+                    console.log(escaped)
+                    this.justdown = false
             }
         
         // if missed too many times game over
