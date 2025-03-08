@@ -75,6 +75,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('startgame', 'audio/startgame.wav')
         this.load.audio('endgame', 'audio/endgame.wav')
 
+        this.load.audio('song', 'audio/Nerd Punch!.wav')
+
         // load bitmap font
         this.load.bitmapFont('retro-font', 'font/Upheaval2.png', 'font/Upheaval2.xml')
     }
@@ -123,6 +125,15 @@ class Menu extends Phaser.Scene {
             })
         })
 
+        // add music
+        this.loop = this.sound.add('song', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            loop: true
+        })
+        this.loop.play()
+
         cursors = this.input.keyboard.createCursorKeys()
 
         // credit interactions
@@ -135,7 +146,8 @@ class Menu extends Phaser.Scene {
         this.credit.on('pointerout', () => {                    // when mouse isn't over
             this.credit.play('credits-out', true)
         })
-        this.credit.on('pointerdown', () => {                   // when mouse is clicked
+        this.credit.on('pointerdown', () => {  
+            this.loop.stop()                 // when mouse is clicked
             this.scene.start('creditsScene')
         })
     }
@@ -144,6 +156,7 @@ class Menu extends Phaser.Scene {
         // change scenes
         if(Phaser.Input.Keyboard.JustDown(cursors.space)) {
             this.sound.play('startgame')
+            this.loop.stop()
             this.scene.start('playScene')
         }
     }

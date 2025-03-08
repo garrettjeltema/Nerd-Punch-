@@ -14,6 +14,15 @@ class Play extends Phaser.Scene {
         // add in-game background
         this.background = this.add.tileSprite(0, 0, 640, 320, 'background').setOrigin(0, 0)
 
+        // add music
+        this.loop = this.sound.add('song', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            loop: true
+        })
+        this.loop.play()
+
         // add platform
         this.platform = this.physics.add.sprite(game.config.width / 2, game.config.height + 100, 'platform')
         this.platform.setScale(2, 1)
@@ -163,6 +172,7 @@ class Play extends Phaser.Scene {
         // add escape button to go back to menu
         this.escape.setInteractive()
         this.escape.on('pointerdown', () => {
+            this.loop.stop()
             this.scene.start('menuScene')
         })
 
@@ -251,6 +261,7 @@ class Play extends Phaser.Scene {
         // if missed too many times game over
         if(this.MISSES > 10) {
             this.sound.play('endgame')
+            this.loop.stop()
             this.scene.start('gameOverScene')
             currentScore = 0
         }
@@ -428,6 +439,7 @@ class Play extends Phaser.Scene {
         // win the game at a certain score
         if(this.SCORE == 10000) {
             this.sound.play('endgame')
+            this.loop.stop()
             this.scene.start('gameOverScene')
             currentScore = 0
         }

@@ -4,7 +4,17 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
+        // add background
         this.add.image(game.config.width / 2, game.config.height / 2, 'gameover')
+
+        // add music
+        this.loop = this.sound.add('song', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            loop: true
+        })
+        this.loop.play()
 
         // menu button animations
         this.anims.create({
@@ -63,6 +73,7 @@ class GameOver extends Phaser.Scene {
             this.menu.play('menu-out', true)
         })
         this.menu.on('pointerdown', () => {                   // when mouse is clicked
+            this.loop.stop()
             this.scene.start('menuScene')
         })
 
@@ -77,6 +88,7 @@ class GameOver extends Phaser.Scene {
             this.restart.play('restart-out', true)
         })
         this.restart.on('pointerdown', () => {                   // when mouse is clicked
+            this.loop.stop()
             this.scene.start('playScene')
         })
     }
