@@ -241,13 +241,16 @@ class Play extends Phaser.Scene {
                 nerdAngle = this.nerd.angle
                 this.nerd.body.setSize(70, 22)
                 this.nerd.anims.play('hurt', true)
+                this.sound.play('point')
             } else if(this.justdown) {
                 this.MISSES += 1
                 this.justdown = false
+                this.sound.play('hurt')
             }
         
         // if missed too many times game over
         if(this.MISSES > 10) {
+            this.sound.play('endgame')
             this.scene.start('gameOverScene')
             currentScore = 0
         }
@@ -424,6 +427,7 @@ class Play extends Phaser.Scene {
 
         // win the game at a certain score
         if(this.SCORE == 10000) {
+            this.sound.play('endgame')
             this.scene.start('gameOverScene')
             currentScore = 0
         }

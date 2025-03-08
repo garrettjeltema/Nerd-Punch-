@@ -69,6 +69,12 @@ class Menu extends Phaser.Scene {
         // load escape button
         this.load.image('escape', 'img/EscButton.png')
 
+        // load audio
+        this.load.audio('hurt', 'audio/hurt.wav')
+        this.load.audio('point', 'audio/point.wav')
+        this.load.audio('startgame', 'audio/startgame.wav')
+        this.load.audio('endgame', 'audio/endgame.wav')
+
         // load bitmap font
         this.load.bitmapFont('retro-font', 'font/Upheaval2.png', 'font/Upheaval2.xml')
     }
@@ -137,6 +143,7 @@ class Menu extends Phaser.Scene {
     update() {
         // change scenes
         if(Phaser.Input.Keyboard.JustDown(cursors.space)) {
+            this.sound.play('startgame')
             this.scene.start('playScene')
         }
     }
