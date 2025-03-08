@@ -36,4 +36,4 @@ let punchable = false
 let f1 = true
 let f2 = false
 
-let highScore = 0
+let currentScore = 0

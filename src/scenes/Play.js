@@ -6,7 +6,7 @@ class Play extends Phaser.Scene {
     init() {
         this.DRAG = 50
         this.physics.world.gravity.y = 1000
-        this.SCORE = 0
+        this.SCORE = currentScore
         this.MISSES = 0
     }
 
@@ -132,7 +132,7 @@ class Play extends Phaser.Scene {
 
         // timer
         this.timer = this.time.addEvent({
-            delay: 60000,
+            delay: 600000,
             args: [],
             startAt: 0,
             timeScale: 1,
@@ -197,6 +197,11 @@ class Play extends Phaser.Scene {
             })
         }
 
+        // when escape clicked current score is kept
+        this.escape.on('pointerdown', () => {
+            currentScore = this.SCORE
+        })
+
         // play nerd idle animation
         if(this.nerd.body.touching.down && this.nerd.angle == 0) {
             this.nerd.anims.play('idle', true)
@@ -224,6 +229,7 @@ class Play extends Phaser.Scene {
         // if missed too many times game over
         if(this.MISSES > 10) {
             this.scene.start('gameOverScene')
+            currentScore = 0
         }
 
         // nerd random knockback
@@ -299,9 +305,6 @@ class Play extends Phaser.Scene {
                 bottom: 5
             },
             fixedWidth: 80
-        }
-        if(this.SCORE > highScore) {                                // i decided to scratch this and use the current score instead
-            highScore = this.SCORE
         }
         this.scoreText = this.add.text(game.config.width / 2 - 38,  4, this.SCORE, scoreConfig).setOrigin(0, 0)
 
@@ -394,6 +397,7 @@ class Play extends Phaser.Scene {
         // win the game at a certain score
         if(this.SCORE == 10000) {
             this.scene.start('gameOverScene')
+            currentScore = 0
         }
     }
 
