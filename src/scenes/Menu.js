@@ -53,7 +53,7 @@ class Menu extends Phaser.Scene {
             frameWidth: 22,
             frameHeight: 70,
             startFrame: 0,
-            endFrame: 2
+            endFrame: 6
         })
 
         // load fist

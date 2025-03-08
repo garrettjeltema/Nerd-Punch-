@@ -94,10 +94,30 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'hurt',
             frameRate: 0,
-            repeate: -1,
+            repeat: -1,
             frames: this.anims.generateFrameNumbers('nerd', {
                 start: 2,
                 end: 2
+            })
+        })
+
+        this.anims.create({
+            key: 'walk-left',
+            frameRate: 2,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('nerd', {
+                start: 3,
+                end: 4
+            })
+        })
+        
+        this.anims.create({
+            key: 'walk-right',
+            frameRate: 2,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('nerd', {
+                start: 5,
+                end: 6
             })
         })
 
@@ -291,6 +311,14 @@ class Play extends Phaser.Scene {
             if(this.elapsed % 30 == 0 && this.nerd.angle == 0 && this.nerd.body.touching.down) {
                 this.nerd.body.setVelocityX(this.randMovement() * 2)
             }
+        }
+
+        // if the nerd is going a certain direction the matching animation plays
+        if(this.nerd.body.velocity.x < 0 && this.nerd.angle == 0) {
+            this.nerd.anims.play('walk-left', true)
+        }
+        if(this.nerd.body.velocity.x > 0 && this.nerd.angle == 0) {
+            this.nerd.anims.play('walk-right', true)
         }
 
         // keeping score
