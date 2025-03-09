@@ -39,3 +39,4 @@ let f1 = true
 let f2 = false
 
 let currentScore = 0
+let currentMisses = 0

@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         this.DRAG = 50
         this.physics.world.gravity.y = 1000
         this.SCORE = currentScore
-        this.MISSES = 0
+        this.MISSES = currentMisses
     }
 
     create() {
@@ -232,6 +232,7 @@ class Play extends Phaser.Scene {
         // when escape clicked current score is kept
         this.escape.on('pointerdown', () => {
             currentScore = this.SCORE
+            currentMisses = this.MISSES
             escaped = true
             this.justdown = false
             this.justdown.destroy()
@@ -271,6 +272,7 @@ class Play extends Phaser.Scene {
             this.loop.stop()
             this.scene.start('gameOverScene')
             currentScore = 0
+            currentMisses = 0
         }
 
         // nerd random knockback
@@ -449,6 +451,7 @@ class Play extends Phaser.Scene {
             this.loop.stop()
             this.scene.start('gameOverScene')
             currentScore = 0
+            currentMisses = 0
         }
     }
 
