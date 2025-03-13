@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
         this.load.image('background', 'img/Nerd Background-01.png')
         this.load.image('platform', 'img/Platform-01.png')
         this.load.image('gameover', 'img/Game Over-01.png')
+        this.load.image('youwin', 'img/You Win-01.png')
         this.load.image('credits', 'img/Credits Nerd-01.png')
 
         // load buttons
@@ -74,6 +75,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('point', 'audio/point.wav')
         this.load.audio('startgame', 'audio/startgame.wav')
         this.load.audio('endgame', 'audio/endgame.wav')
+        this.load.audio('wingame', 'audio/winscreen.wav')
 
         this.load.audio('song', 'audio/Nerd Punch!.wav')
 

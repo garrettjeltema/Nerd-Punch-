@@ -234,7 +234,7 @@ class Play extends Phaser.Scene {
             currentScore = this.SCORE
             currentMisses = this.MISSES
             escaped = true
-            this.justdown = false
+            // this.justdown = false
             this.justdown.destroy()
         })
 
@@ -261,8 +261,6 @@ class Play extends Phaser.Scene {
             } else if(this.justdown && !escaped) {
                     this.MISSES += 1
                     this.sound.play('hurt')
-                    console.log(this.justdown)
-                    console.log(escaped)
                     this.justdown = false
             }
         
@@ -446,10 +444,10 @@ class Play extends Phaser.Scene {
         this.physics.world.wrap(this.nerd, this.nerd.width / 2)
 
         // win the game at a certain score
-        if(this.SCORE == 10000) {
-            this.sound.play('endgame')
+        if(this.SCORE >= 10000) {
+            this.sound.play('wingame')
             this.loop.stop()
-            this.scene.start('gameOverScene')
+            this.scene.start('youWinScene')
             currentScore = 0
             currentMisses = 0
         }
