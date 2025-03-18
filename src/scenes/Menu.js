@@ -42,6 +42,13 @@ class Menu extends Phaser.Scene {
             endFrame: 1
         })
 
+        this.load.spritesheet('fist2-select', 'img/Fist Selection2.png', {
+            frameWidth: 82,
+            frameHeight: 78,
+            startFrame: 0,
+            endFrame: 2
+        })
+
         this.load.spritesheet('empty-select', 'img/Empty Fist Selection.png', {         // empty selection
             frameWidth: 82,
             frameHeight: 78,
@@ -57,8 +64,9 @@ class Menu extends Phaser.Scene {
             endFrame: 6
         })
 
-        // load fist
+        // load fists
         this.load.image('fist1', 'img/Fist1.png')
+        this.load.image('fist2', 'img/Fist2.png')
 
         // load pow
         this.load.image('pow', 'img/Pow.png')

@@ -45,16 +45,20 @@ class Play extends Phaser.Scene {
         this.f1Selection.body.setAllowGravity(false)
         this.f1Selection.body.setImmovable(true)
 
-        this.f2Selection = this.physics.add.sprite(game.config.width - 142, 50, 'empty-select', 1)
+        this.f2Selection = this.physics.add.sprite(game.config.width - 142, 50, 'fist2-select', 2)
         this.f2Selection.body.setAllowGravity(false)
         this.f2Selection.body.setImmovable(true)
+
+        // this.f3Selection = this.physics.add.sprite(game.config.width - 142, 50, 'empty-select', 1)
+        // this.f3Selection.body.setAllowGravity(false)
+        // this.f3Selection.body.setImmovable(true)
 
         // add nerd
         this.nerd = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'nerd', 0)
 
         // selection animations
         this.anims.create({                                                         // fist in-use
-            key: 'used-fist',
+            key: 'used-fist1',
             frameRate: 0,
             repeat: -1,
             frames: this.anims.generateFrameNumbers('fist1-select', {
@@ -63,7 +67,7 @@ class Play extends Phaser.Scene {
             })
         })
         this.anims.create({                                                         // fist not in-use
-            key: 'unused-fist',
+            key: 'unused-fist1',
             frameRate: 0,
             repeat: -1,
             frames: this.anims.generateFrameNumbers('fist1-select', {
@@ -72,22 +76,31 @@ class Play extends Phaser.Scene {
             })
         })
 
-        this.anims.create({                                                         // empty in-use
-            key: 'used-empty',
+        this.anims.create({                                                         // fist2 in-use
+            key: 'used-fist2',
             frameRate: 0,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('empty-select', {
+            frames: this.anims.generateFrameNumbers('fist2-select', {
                 start: 0,
                 end: 0
             })
         })
-        this.anims.create({                                                         // empty not in-use
-            key: 'unused-empty',
+        this.anims.create({                                                         // fist2 not in-use
+            key: 'unused-fist2',
             frameRate: 0,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('empty-select', {
+            frames: this.anims.generateFrameNumbers('fist2-select', {
                 start: 1,
                 end: 1
+            })
+        })
+        this.anims.create({                                                         // fist2 locked
+            key: 'locked-fist2',
+            frameRate: 0,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('fist2-select', {
+                start: 2,
+                end: 2
             })
         })
 
@@ -160,6 +173,7 @@ class Play extends Phaser.Scene {
            f1 = !f1
            f2 = !f2
         })
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
         // timer
         this.timer = this.time.addEvent({
@@ -191,9 +205,17 @@ class Play extends Phaser.Scene {
 
     update() {
         // switch between selections
-        if(this.SCORE >= 1200) {
+        if(this.SCORE >= 1500) {
+            if(Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+                if(f1) {
+                    this.input.manager.canvas.style.cursor = 'url(assets/img/Fist1.png), pointer'
+                }
+                if(f2) {
+                    this.input.manager.canvas.style.cursor = 'url(assets/img/Fist2.png), pointer'
+                }
+            }
             if(f1) {
-                this.f1Selection.anims.play('used-fist', true)
+                this.f1Selection.anims.play('used-fist1', true)
                 this.damage = 100
                 this.escape.on('pointerover', () => {
                     this.input.manager.canvas.style.cursor = 'pointer'
@@ -202,25 +224,24 @@ class Play extends Phaser.Scene {
                     this.input.manager.canvas.style.cursor = 'url(assets/img/Fist1.png), pointer'
                 })
             } else if(!f1) {
-                this.f1Selection.anims.play('unused-fist', true)
+                this.f1Selection.anims.play('unused-fist1', true)
             }
     
             if(f2) {
-                this.f2Selection.anims.play('used-empty', true)
-                // this.input.manager.canvas.style.cursor = 'url(assets/img/Pow.png), pointer'
+                this.f2Selection.anims.play('used-fist2', true)
                 this.damage = 300
                 this.escape.on('pointerover', () => {
                     this.input.manager.canvas.style.cursor = 'pointer'
                 })
                 this.escape.on('pointerout', () => {
-                    this.input.manager.canvas.style.cursor = 'url(assets/img/Fist1.png), pointer'
+                    this.input.manager.canvas.style.cursor = 'url(assets/img/Fist2.png), pointer'
                 })
             } else if(!f2) {
-                this.f2Selection.anims.play('unused-empty', true)
+                this.f2Selection.anims.play('unused-fist2', true)
             }
         }
 
-        if(this.SCORE < 1200) {                                                                 // add pointer for escape button
+        if(this.SCORE < 1500) {                                                                 // add pointer for escape button
             this.escape.on('pointerover', () => {
                 this.input.manager.canvas.style.cursor = 'pointer'
             })
@@ -323,12 +344,12 @@ class Play extends Phaser.Scene {
         // after a certain amount of time nerd runs back and forth
         this.elapsed = this.timer.getElapsed()
         this.elapsed = Math.ceil(this.elapsed)
-        if(this.SCORE < 1200 && this.elapsed > 8000) {
+        if(this.SCORE < 1500 && this.elapsed > 8000) {
             if(this.elapsed % 30 == 0 && this.nerd.angle == 0 && this.nerd.body.touching.down) {
                 this.nerd.body.setVelocityX(this.randMovement())
             }
         }
-        if(this.SCORE >= 1200 && this.elapsed > 8000) {
+        if(this.SCORE >= 1500 && this.elapsed > 8000) {
             if(this.elapsed % 30 == 0 && this.nerd.angle == 0 && this.nerd.body.touching.down) {
                 this.nerd.body.setVelocityX(this.randMovement() * 2)
             }
